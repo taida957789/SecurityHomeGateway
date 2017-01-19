@@ -1,0 +1,17 @@
+{
+  "name": "smart-home-gateway",
+  "version": "1.0.0",
+  "description": "Smart Home Gateway",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --harmony app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Weber Tsai",
+  "license": "MIT",
+  "dependencies": {
+    "koa-mongo": "^1.1.0",
+    "koa-router": "^7.1.0",
+    "koa-static": "^3.0.0"
+  }
+}
