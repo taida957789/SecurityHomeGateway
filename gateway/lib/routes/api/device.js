@@ -5,7 +5,7 @@ const router = require('koa-router')({
 const deviceManager = require('../../device-manager');
 const User = require('../../schemas/user');
 
-router.get('/', (ctx, next) => {
+router.get('/', async (ctx, next) => {
    const user = await User.find();
    ctx.body = JSON.stringify(user);
 });
