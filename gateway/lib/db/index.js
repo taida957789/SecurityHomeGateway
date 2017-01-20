@@ -1,9 +1,15 @@
 module.exports = {
+    user: '',
+    pass: '',
     host: 'localhost',
     port: 27017,
 //    user: 'gateway',
 //    pass: 'gateway!',
-    db: 'gatewayDB',
-    max: 100,
-    min: 1
+    database: 'gatewayDB',
+    db: {
+        native_parser: true
+    },
+    server: {
+        poolSize: 5
+    }
 };

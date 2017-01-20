@@ -1,11 +1,13 @@
-var router = require('koa-router')({
+const router = require('koa-router')({
     prefix: '/device'
 });
 
-var deviceManager = require('../../device-manager');
+const deviceManager = require('../../device-manager');
+const User = require('../../schemas/user');
 
 router.get('/', (ctx, next) => {
-   ctx.body = deviceManager.getAllResources();
+   const user = await User.find();
+   ctx.body = JSON.stringify(user);
 });
 
 module.exports = router;
