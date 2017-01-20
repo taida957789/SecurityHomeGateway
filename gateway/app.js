@@ -1,5 +1,5 @@
 const koa = require('koa');
-const mongo = require('koa-mongo');
+const mongoose = require('koa-mongoose');
 const router = require('koa-router')();
 const koaStatic = require('koa-static');
 
@@ -14,7 +14,6 @@ let deviceManager = require('./lib/device-manager');
 router.use(apiRoute.routes());
 
 app
-    .use(mongo(dbOption))
     .use(koaStatic(__dirname + '/static'))
     .use(router.routes())
     .use(router.allowedMethods());
