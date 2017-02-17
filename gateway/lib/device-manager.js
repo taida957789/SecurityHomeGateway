@@ -28,23 +28,25 @@ class DeviceManager {
 
     findResources() {
         this.checkResourceList = [];
-        var scope = this;
         this.device.findResources().then(
             function() {
                 console.log('Client: findResource() successfully');
-                for(var resourceId in scope.resourcesList) {
-                    var resource = scope.resourcesList[resourceId];
-                    if(scope.checkResourceList.indexOf(resourceId) < 0) {
-                        scope.deleteResource(resource);
-                        resource.removeEventListener('change', scope.bindObserveResource);
-                        resource.removeEventListener('delete', scope.bindDeleteResource);
-                    }
-                }
-            },
+           },
             function(error) {
                 console.log('Client: findResources() failed with ' + error + ' and result ' + error.result);
-            });
-       setTimeout(() => {this.findResources();}, 5000);
+            }
+        );
+
+        /*for(var resourceId in this.resourcesList) {
+            var resource = this.resourcesList[resourceId];
+            if(this.checkResourceList.indexOf(resourceId) < 0) {
+                this.deleteResource(resource);
+                resource.removeEventListener('change', this.bindObserveResource);
+                resource.removeEventListener('delete', this.bindDeleteResource);
+            }
+        }*/
+ 
+        setTimeout(() => {this.findResources();}, 5000);
     }
 
     discoverResource(event) {
@@ -59,8 +61,8 @@ class DeviceManager {
             event.resource.addEventListener("delete", this.bindDeleteResource);
         }
 
-        if(this.checkResourceList.indexOf(resourceId) < 0)
-            this.checkResourceList.push(resourceId);
+        //if(this.checkResourceList.indexOf(resourceId) < 0)
+        //    this.checkResourceList.push(resourceId);
     }
 
     observeResource(event) {
