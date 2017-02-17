@@ -8,6 +8,7 @@ class DeviceManager {
         this.device = require('iotivity-node')('client');
         this.notifyObserversTimeoutId = undefined;
         this.resourcesList = {};
+        this.newResourcesList = {};
         this.bindDiscoverResource = evt => this.discoverResource(evt);
         this.bindObserveResource = evt => this.observeResource(evt);
         this.bindDeleteResource = evt => this.deleteResource(evt);
@@ -22,6 +23,7 @@ class DeviceManager {
     }
 
     findResources() {
+        this.newResourcesList = {};
         this.device.findResources().then(
             function() {
                 console.log('Client: findResource() successfully');
@@ -29,15 +31,17 @@ class DeviceManager {
             function(error) {
                 console.log('Client: findResources() failed with ' + error + ' and result ' + error.result);
             });
+        this.resourcesList = this.newResourcesList;
         setTimeout(() => {this.findResources();}, 5000);
     }
 
     discoverResource(event) {
-        var resourceId = this.resourcesList[event.resource.id.deviceId + ":" + event.resource.id.path];
+
+        var resourceId = this.newResourcesList[event.resource.id.deviceId + ":" + event.resource.id.path];
 
         if(!resourceId) {
             console.log('Resource found:' + JSON.stringify(event.resource, null, 4));
-            this.resourcesList[event.resource.id.deviceId + ":" + event.resource.id.path] = event.resource;
+            this.newResourcesList[event.resource.id.deviceId + ":" + event.resource.id.path] = event.resource;
             event.resource.addEventListener("change", this.bindObserveResource);
             event.resource.addEventListener("delete", this.bindDeleteResource);
         }

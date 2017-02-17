@@ -5,9 +5,13 @@ const router = require('koa-router')({
 const deviceManager = require('../../device-manager');
 const User = require('../../schemas/user');
 
-router.get('/', async (ctx, next) => {
-   const user = await User.find();
-   ctx.body = JSON.stringify(user);
+router.get('/list', async (ctx, next) => {
+
+    var devices = deviceManager.getAllResources();
+
+    ctx.body = {};
+    ctx.body.devices = JSON.stringify(devices);
+
 });
 
 module.exports = router;
