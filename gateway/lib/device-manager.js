@@ -22,29 +22,45 @@ class DeviceManager {
         return this.resourcesList;
     }
 
+    getResource(deviceId) {
+        return this.resourcesList[deviceId];
+    }
+
     findResources() {
-        this.newResourcesList = {};
+        this.checkResourceList = [];
+        var scope = this;
         this.device.findResources().then(
             function() {
                 console.log('Client: findResource() successfully');
+                for(var resourceId in scope.resourcesList) {
+                    var resource = scope.resourcesList[resourceId];
+                    if(scope.checkResourceList.indexOf(resourceId) < 0) {
+                        scope.deleteResource(resource);
+                        resource.removeEventListener('change', scope.bindObserveResource);
+                        resource.removeEventListener('delete', scope.bindDeleteResource);
+                    }
+                }
             },
             function(error) {
                 console.log('Client: findResources() failed with ' + error + ' and result ' + error.result);
             });
-        this.resourcesList = this.newResourcesList;
-        setTimeout(() => {this.findResources();}, 5000);
+       setTimeout(() => {this.findResources();}, 5000);
     }
 
     discoverResource(event) {
 
-        var resourceId = this.newResourcesList[event.resource.id.deviceId + ":" + event.resource.id.path];
+        var resourceId = event.resource.id.deviceId + ":" + event.resource.id.path;
+        var resource = this.resourcesList[resourceId];
 
-        if(!resourceId) {
+        if(!resource) {
             console.log('Resource found:' + JSON.stringify(event.resource, null, 4));
-            this.newResourcesList[event.resource.id.deviceId + ":" + event.resource.id.path] = event.resource;
+            this.resourcesList[event.resource.id.deviceId + ":" + event.resource.id.path] = event.resource;
             event.resource.addEventListener("change", this.bindObserveResource);
             event.resource.addEventListener("delete", this.bindDeleteResource);
         }
+
+        if(this.checkResourceList.indexOf(resourceId) < 0)
+            this.checkResourceList.push(resourceId);
     }
 
     observeResource(event) {

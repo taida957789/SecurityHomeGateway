@@ -1,3 +1,5 @@
+const deviceManager = require('./device-manager.js');
+
 
 class RulesEngine {
 
@@ -21,7 +23,14 @@ class RulesEngine {
     }
 
     processEvent(events) {
-        
+        for(var i in events) {
+            
+            var event = events[i];
+
+            var deviceManager.getDate
+
+
+        }
     }
 }
 
