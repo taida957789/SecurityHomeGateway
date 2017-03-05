@@ -6,6 +6,12 @@ const randomString = require('random-string');
 
 const User = require('../../schemas/user');
 
+// Login to system
+// POST /api/auth/login
+// Post Params:
+//  username - username for signing in system
+//  password - user password
+//
 router.post('/login', async (ctx, next) => {
 
     let hash = crypto.createHash('sha1');
@@ -59,15 +65,24 @@ router.post('/login', async (ctx, next) => {
         // didnt find any user
         result.response = 0;
         result.message = 'Error username or password.';
-    
     }
 
     ctx.body = result;
 
 });
 
+// Logout system
+// POST /api/auth/logout
+// Post params:
+//  username - username
 router.post('/logout', async (ctx, next) => {
+    user.token = null;
+    user.save();
 
+    ctx.body = {
+        response: 0,
+        message: 'Logout Success'
+    };
 });
 
 module.exports = router;
