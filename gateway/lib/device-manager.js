@@ -26,7 +26,7 @@ class DeviceManager {
         return this.resourcesList[deviceId];
     }
 
-    findResources() {
+    findResources(prefifx='') {
         this.checkResourceList = [];
         this.device.findResources().then(
             function() {
@@ -37,15 +37,8 @@ class DeviceManager {
             }
         );
 
-        /*for(var resourceId in this.resourcesList) {
-            var resource = this.resourcesList[resourceId];
-            if(this.checkResourceList.indexOf(resourceId) < 0) {
-                this.deleteResource(resource);
-                resource.removeEventListener('change', this.bindObserveResource);
-                resource.removeEventListener('delete', this.bindDeleteResource);
-            }
-        }*/
- 
+
+
         setTimeout(() => {this.findResources();}, 5000);
     }
 
